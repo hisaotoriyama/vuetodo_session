@@ -1,34 +1,53 @@
+<!DOCTYPE html>
 <html lang="ja">
-
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
 
 <body>
   <div id="app">
-    <h2>TO DO LIST!!</h2>
+    <h2>今日やることリスト!!</h2>
+
+
+    <select id="name" v-model="name_selected"> 
+      <option>Hisao</option>
+      <option>Yoshiko</option>
+      <option>Seitaro</option>
+      <option>Yuki</option>
+      <option>Masayuki</option>
+    </select>
+    <span>{{name_selected}}</span>
     <form　v-on:submit.prevent>
       <input type="text" v-model="newItem">
-      <button v-on:click="addItem">
-  Add</button>
+      
+      <button v-on:click="addItem">やるべき追加</button>
       </form>
+
       <ul>
+        <li v-for="eachtodo in todos">
+        <input type="checkbox" v-model="eachtodo.isDone">
+        <span>{{eachtodo.id}}</span><br>
+        <span v-bind:class="{done: eachtodo.isDone}">{{eachtodo.item}}</span>
+      </ul>
+
+      <!-- <ul>
         <li v-for="(todotodo, index) in todos">
         <input type="checkbox" v-model="todotodo.isDone">
         <span v-bind:class="{done: todotodo.isDone}">{{todotodo.item}}</span>
         <button v-on:click="deleteItem(index)">Delete</button>
         </li>
-      </ul>
+      </ul> -->
 
+      <button v-on:click="readItem">更新</button>
+      <button v-on:click="deleteItem">削除</button>
 
+      <pre>{{$data.todos}}</pre>
   </div>
-  
-
-   
-    <script src="./js/main.js"></script>
+      <script src="./js/main.js"></script>
 </body>
 
 </html>
