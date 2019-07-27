@@ -58,7 +58,7 @@ module.exports = {
     destroy: (req, res) => {
         db.vuetodotable.destroy({
             where: {
-             id:parseInt(2)
+             id:2
             }
         }).then(() => {
             res.send({})

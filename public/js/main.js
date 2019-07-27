@@ -3,7 +3,8 @@ var app = new Vue({
   data: {
     newItem: "",
     name_selected: "",
-    todos:""
+    todos:"",
+    isDonetodos:""
   },
   
   // created/mountedにていつもmysqlをReadして表示
@@ -44,13 +45,22 @@ var app = new Vue({
       this.newItem = ""
     },
 
-    deleteItem:function(index){
-    //alert(index);
+    deleteItem:function(){
+      var self = this;
+      self.isDonetodos = self.todos.filter((v)=> {
+        return(v.isDone=1);
+        });
+      console.log(isDonetodos);  
 
-    this.todos.splice(index,1)
-    // このタイミングでmysqlにてDelete
-    
-  
+
+    //List　をforEach[]
+    //for Eachごとに通信。で一個一個飛ばす。
+
+    //this.todos.splice(index,1)
+
+    //delete.全て終わったら、次にAjax
+    //readにて
+
   },
 
 
@@ -66,10 +76,7 @@ var app = new Vue({
       };
       var self = this
       fetch('http://localhost:3020/vuetodos?name=' + this.name_selected, d).then((d) => {d.json().then((j) => {
-        self.todos = j
-      }
-      )})
-      console.log(self.todos)
+        self.todos = j;})}).then(console.log(self.todos))
      }
-    }
+  }
 })
