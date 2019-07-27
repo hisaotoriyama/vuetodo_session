@@ -46,11 +46,12 @@ var app = new Vue({
     },
 
     deleteItem:function(){
+      alert();
       var self = this;
       self.isDonetodos = self.todos.filter((v)=> {
-        return(v.isDone=1);
+        return(v.isDone=true);
         });
-      console.log(isDonetodos);  
+      console.log(self.isDonetodos);  
 
 
     //List　をforEach[]
