@@ -56,9 +56,10 @@ module.exports = {
     //    res.send("destroy forum " + req.params.forum);
     // },
     destroy: (req, res) => {
+        
         db.vuetodotable.destroy({
             where: {
-             id:2
+             id:req.params.id
             }
         }).then(() => {
             res.send({})

@@ -6,90 +6,96 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    
-  
-  
   </head>
 
-<body>
-  <div id="app" class="container-fluid">
-    <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand">今日やることリスト!!</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      自分の名前
-                    </a>
-                    <div class="dropdown-menu" v-model="name_selected">
-                      <option class="dropdown-item" href="#">Hisao</option>
-                      <a class="dropdown-item" href="#">Yoshiko</a>
-                      <a class="dropdown-item" href="#">Seitaro</a>
-                      <a class="dropdown-item" href="#">Yuki</a>
-                      <a class="dropdown-item" href="#">Masayuki</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </li>
-                </ul>
-          </nav>
-    </div>
-    <div class="row">
-<div class="col-md-2" style="background-color:grey">
-        <select id="name" v-model="name_selected"> 
-            <option>Hisao</option>
-            <option>Yoshiko</option>
-            <option>Seitaro</option>
-            <option>Yuki</option>
-            <option>Masayuki</option>
-        </select>
+  <body>
+    <div id="app" class="container-fluid">
+      <div class="row">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <a class="navbar-brand">今日やることリスト!!</a>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        自分の名前
+                      </a>
+                      <div class="dropdown-menu" v-model="name_selected">
+                        <option class="dropdown-item" href="#">Hisao</option>
+                        <a class="dropdown-item" href="#">Yoshiko</a>
+                        <a class="dropdown-item" href="#">Seitaro</a>
+                        <a class="dropdown-item" href="#">Yuki</a>
+                        <a class="dropdown-item" href="#">Masayuki</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                    </li>
+                  </ul>
+            </nav>
       </div>
 
-<div class="col-md-10" style="background-color:blue">
-      <form　v-on:submit.prevent class="col-3">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" v-model="newItem">
-        <div class="input-group-append">
-          <span class="input-group-text" v-on:click="addItem">やるべき追加</span>
+      <div class="row">
+        <div class="col-md-2" style="background-color:grey">
+                <select id="name" v-model="name_selected"> 
+                    <option>Hisao</option>
+                    <option>Yoshiko</option>
+                    <option>Seitaro</option>
+                    <option>Yuki</option>
+                    <option>Masayuki</option>
+                </select>
         </div>
-      </div>    
-    </form>
-  </div>
+
+        <div class="col-md-10" style="background-color:blue">
+            <form　v-on:submit.prevent class="col-3">
+              <!-- ここはAddItemで完成しているところなので最後もどす。のちのDeleteIdを完成させるために一度外しているだけ。 -->
+              <!-- <div class="input-group mb-3">
+                <input type="text" class="form-control" v-model="newItem">
+                <div class="input-group-append">
+                  <span class="input-group-text" v-on:click="addItem">追加</span>
+                </div>
+              </div>  -->
+              <div class="input-group mb-6">
+                <input type="number" class="form-control" v-model="deleteId">
+                <div class="input-group-append">
+                  <span class="input-group-text" v-on:click="selectedDelete">完了番号（暫定）</span>
+                </div>
+              </div>    
+            </form>
+        </div>
+      </div>
+
+      <div class="row">
+          <table class="table">
+              <thead>
+                <tr>
+                  <th class="col-sm-3">#</th>
+                  <th class="col-sm-3">isDone</th>
+                  <th class="col-sm-3">TODO</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="eachtodo in todos">
+                  <td><input type="checkbox" v-model="eachtodo.isDone"></td>
+                  <td>{{eachtodo.id}}</td>
+                  <td><span v-bind:class="{done: eachtodo.isDone}">{{eachtodo.item}}</span></td>
+                </tr>
+              </tbody>
+            </table>
+      </div>
+
+
+      <div class="row">
+          <button type="button" class="btn btn-outline-primary" v-on:click="readItem">更新</button>
+          <button type="button" class="btn btn-outline-primary" v-on:click="deleteItem">削除</button>
+
+      </div>
+      <pre>{{$data.deleteId}}</pre>
     </div>
 
-    <div class="row">
-        <table class="table">
-            <thead>
-              <tr>
-                <th class="col-sm-3">#</th>
-                <th class="col-sm-3">isDone</th>
-                <th class="col-sm-3">TODO</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="eachtodo in todos">
-                <td><input type="checkbox" v-model="eachtodo.isDone"></td>
-                <td>{{eachtodo.id}}</td>
-                <td><span v-bind:class="{done: eachtodo.isDone}">{{eachtodo.item}}</span></td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
+    <script src="./js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
-    <div class="row">
-        <button type="button" class="btn btn-outline-primary" v-on:click="readItem">更新</button>
-        <button type="button" class="btn btn-outline-primary" v-on:click="deleteItem">削除</button>
-
-    </div>
-    <pre>{{$data.todos}}</pre>
-  </div>
-      <script src="./js/main.js"></script>
-
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
+  </body>
 
 </html>
