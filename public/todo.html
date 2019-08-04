@@ -53,12 +53,12 @@
                   <span class="input-group-text" v-on:click="addItem">追加</span>
                 </div>
               </div>  -->
-              <div class="input-group mb-6">
+              <!-- <div class="input-group mb-6">
                 <input type="number" class="form-control" v-model="deleteId">
                 <div class="input-group-append">
                   <span class="input-group-text" v-on:click="selectedDelete">完了番号（暫定）</span>
                 </div>
-              </div>    
+              </div>     -->
             </form>
         </div>
       </div>
@@ -85,10 +85,11 @@
 
       <div class="row">
           <button type="button" class="btn btn-outline-primary" v-on:click="readItem">更新</button>
-          <button type="button" class="btn btn-outline-primary" v-on:click="deleteItem">削除</button>
+          <button type="button" class="btn btn-outline-primary" v-on:click="delistItem">削除</button>
 
       </div>
-      <pre>{{$data.deleteId}}</pre>
+
+      <pre>{{$data.isDonetodos}}</pre>
     </div>
 
     <script src="./js/main.js"></script>

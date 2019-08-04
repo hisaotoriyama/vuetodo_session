@@ -8,7 +8,7 @@ var app = new Vue({
     deleteId:"",
     deleteItem:""
   },
-  // created/mountedにていつもmysqlをReadして表示
+  // created/mountedにていつもmysqlをReadして表示したい。
   // created: function(){
   //   self=this;
   //   axios.get('http://localhost:3020/').then(function(res){
@@ -18,7 +18,9 @@ var app = new Vue({
   //   })
   // },
   created:　function() {
+    this.readItem()
   },
+
   methods: {
     addItem: function(event) {
       if (this.newItem == "") return;
@@ -43,7 +45,9 @@ var app = new Vue({
       )});
       this.newItem = ""
     },
-    selectedDelete:function(){
+
+    //稼働確認済み
+    selectedDelete:function(deleteId){
       alert("just start this.selectedDelete!");
       const headers = {
         'Accept': 'application/json',
@@ -51,24 +55,35 @@ var app = new Vue({
       };
       const d = {
       headers: headers,
-      method: "DESTROY" 
+      method: "DELETE" 
       };
       var self = this;
-      console.log(self.deleteId);
-      fetch('http://localhost:3020/vuetodos/:'+self.deleteId, d);
-    }, 
-    // deleteItem:function(){
-    //   var self = this;
-    //   self.isDonetodos = self.todos.filter((v)=> {
-    //     return(v.isDone===true);
-    //     });
-    //   Promise.all([
-    //     self.isDonetodos.forEach(
-    //       (v) => {
-    //         selectedDelete()
-    //       }, result);
-    //     ]).then((res)=> readItem())
-    // },
+      fetch('http://localhost:3020/vuetodos/'+deleteId, d);
+    },
+    //非稼働と思われる。
+    proSelectedDelete:function(i){
+        return new Promise((res,rej)=>{
+          selectedDelete(i)
+    })},
+    
+    //前半稼働している
+    delistItem: function(){
+      alert("just start delistItem!");
+      var self = this;
+      self.isDonetodos = self.todos.filter((v)=> {
+        return(v.isDone===true);
+        });
+      console.log(self.isDonetodos);
+
+      //以上まで行った。以下は非稼働と思われる。  
+      var p = Promise.all(
+      self.isDonetodos.forEach((v) => {
+        this.proSelectedDelete(v)
+      }));
+      p.then((response) => this.readItem()
+      ); 
+    },
+
     readItem: function(){
       const headers = {
           'Accept': 'application/json',
