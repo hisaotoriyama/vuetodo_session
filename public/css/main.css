@@ -2,6 +2,9 @@
   list-style:none;
 }
 
-#app li> span.done{
+#app tbody> tr > td > span.done{
   text-decoration:line-through
 }
+
+.itemList { 
+  width: 100px; }

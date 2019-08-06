@@ -43,20 +43,21 @@ module.exports = {
             })
         })
     },
-    // show: (req, res) => {
-    //     res.send("show forum " + req.params.forum);
-    // },
-    // edit: (req, res) => {
-    //     res.send("edit forum " + req.params.forum);
-    // },
+
     update: (req, res) => {
-        res.send("update forum " + req.params.forum);
-    },
-    // destroy: (req, res) => {
-    //    res.send("destroy forum " + req.params.forum);
-    // },
+        db.vuetodotable.update({
+          item:req.body.item
+        },{
+          where:{
+            id:req.params.id
+          }
+        }).then((p)=>{
+          let data = p
+          res.json(data)
+        })},
+
+    //（重要論点）Sequlize上ではdestroy。でもhttp上ではdeleteとする。
     destroy: (req, res) => {
-        
         db.vuetodotable.destroy({
             where: {
              id:req.params.id

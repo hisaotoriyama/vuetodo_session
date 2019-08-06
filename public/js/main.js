@@ -6,7 +6,9 @@ var app = new Vue({
     todos:"",
     isDonetodos:"",
     deleteId:"",
-    deleteItem:""
+    deleteItem:"",
+    revisedTodo:"",
+    revisedTodos:""
   },
   // created/mountedにていつもmysqlをReadして表示したい。
   // created: function(){
@@ -46,9 +48,7 @@ var app = new Vue({
       this.newItem = ""
     },
 
-    //稼働確認済み
     selectedDelete:function(deleteId){
-      alert("just start this.selectedDelete!");
       const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -58,27 +58,25 @@ var app = new Vue({
       method: "DELETE" 
       };
       var self = this;
-      fetch('http://localhost:3020/vuetodos/'+deleteId, d);
+      //（重要論点）fetchはPromise返す。
+      return fetch('http://localhost:3020/vuetodos/'+deleteId.id, d);
     },
-    //非稼働と思われる。
-    proSelectedDelete:function(i){
-        return new Promise((res,rej)=>{
-          selectedDelete(i)
-    })},
+    //（重要論点）return fetchとしてfetchにてPromise返している。よってこれは不要となった
+    // proSelectedDelete:function(i){
+    //     return new Promise((res,rej)=>{
+    //       selectedDelete(i)
+    // })},
     
-    //前半稼働している
+
     delistItem: function(){
-      alert("just start delistItem!");
       var self = this;
       self.isDonetodos = self.todos.filter((v)=> {
         return(v.isDone===true);
         });
-      console.log(self.isDonetodos);
-
-      //以上まで行った。以下は非稼働と思われる。  
+      // console.log(self.isDonetodos);
       var p = Promise.all(
-      self.isDonetodos.forEach((v) => {
-        this.proSelectedDelete(v)
+      self.isDonetodos.map((v) => {
+        this.selectedDelete(v)
       }));
       p.then((response) => this.readItem()
       ); 
@@ -94,8 +92,45 @@ var app = new Vue({
          method: "GET"
       };
       var self = this
-      fetch('http://localhost:3020/vuetodos?name=' + this.name_selected, d).then((d) => {d.json().then((j) => {
-        self.todos = j;})}).then(console.log(self.todos))
+      fetch('http://localhost:3020/vuetodos?name=' + this.name_selected, d).then((d) => {
+       return new Promise((res, rej) => {
+         d.json().then((j) => {
+           self.todos = j;
+           res(); // resolve
+         })
+       })
+     })
+     .then(console.log(self.todos))
+    },
+
+    reviseItem:function(){
+      var self = this;
+      self.revisedTodos = self.todos.filter((v)=> {
+        return(v.revisedTodo!="");
+        });
+      console.log(self.revisedTodos);
+      var r = Promise.all(
+          self.revisedTodos.map((v) => {
+            this.selectedrevise(v)
+          }));
+          p.then((response) => this.readItem()
+          ); 
+    },
+
+    selectedrevise:function(v) {
+      const data ={
+        "item": v.revisedTodo
+      };
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      const d = {
+      headers: headers,
+      method: "PUT",
+      body: JSON.stringify(data) 
+      };
+      return fetch('http://localhost:3020/vuetodos/'+v.id, d);
     }
   }
 });

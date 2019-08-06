@@ -19,6 +19,7 @@
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         自分の名前
                       </a>
+                  
                       <div class="dropdown-menu" v-model="name_selected">
                         <option class="dropdown-item" href="#">Hisao</option>
                         <a class="dropdown-item" href="#">Yoshiko</a>
@@ -46,37 +47,32 @@
 
         <div class="col-md-10" style="background-color:blue">
             <form　v-on:submit.prevent class="col-3">
-              <!-- ここはAddItemで完成しているところなので最後もどす。のちのDeleteIdを完成させるために一度外しているだけ。 -->
-              <!-- <div class="input-group mb-3">
+              <div class="input-group mb-3">
                 <input type="text" class="form-control" v-model="newItem">
                 <div class="input-group-append">
                   <span class="input-group-text" v-on:click="addItem">追加</span>
                 </div>
-              </div>  -->
-              <!-- <div class="input-group mb-6">
-                <input type="number" class="form-control" v-model="deleteId">
-                <div class="input-group-append">
-                  <span class="input-group-text" v-on:click="selectedDelete">完了番号（暫定）</span>
-                </div>
-              </div>     -->
+              </div> 
             </form>
         </div>
       </div>
 
       <div class="row">
-          <table class="table">
+          <table class="table" class="itemList">
               <thead>
                 <tr>
-                  <th class="col-sm-3">#</th>
-                  <th class="col-sm-3">isDone</th>
-                  <th class="col-sm-3">TODO</th>
+                  <th scope="col">Delete</th>
+                  <!-- <th scope="col">id</th> -->
+                  <th scope="col">TODO</th>
+                  <th scope="col">Revision</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="eachtodo in todos">
                   <td><input type="checkbox" v-model="eachtodo.isDone"></td>
-                  <td>{{eachtodo.id}}</td>
+                  <!-- <td><span v-bind:class="{id: eachtodo.id}">{{eachtodo.id}}</span></td> -->
                   <td><span v-bind:class="{done: eachtodo.isDone}">{{eachtodo.item}}</span></td>
+                  <td><input type="text" v-model:class="eachtodo.revisedTodo"></td>
                 </tr>
               </tbody>
             </table>
@@ -86,10 +82,11 @@
       <div class="row">
           <button type="button" class="btn btn-outline-primary" v-on:click="readItem">更新</button>
           <button type="button" class="btn btn-outline-primary" v-on:click="delistItem">削除</button>
+          <button type="button" class="btn btn-outline-primary" v-on:click="reviseItem">修正</button>
 
       </div>
 
-      <pre>{{$data.isDonetodos}}</pre>
+      <pre>{{$data.revisedTodos}}</pre>
     </div>
 
     <script src="./js/main.js"></script>
