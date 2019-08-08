@@ -113,7 +113,7 @@ var app = new Vue({
           self.revisedTodos.map((v) => {
             this.selectedrevise(v)
           }));
-          p.then((response) => this.readItem()
+          r.then((response) => this.readItem()
           ); 
     },
 
