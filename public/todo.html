@@ -35,7 +35,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-2" style="background-color:grey">
+        <div class="col-md-2" style="background-color:blue">
                 <select id="name" v-model="name_selected"> 
                     <option>Hisao</option>
                     <option>Yoshiko</option>
@@ -45,16 +45,14 @@
                 </select>
         </div>
 
-        <div class="col-md-10" style="background-color:blue">
+        <!-- <div class="col-md-10" style="background-color:blue">
             <form　v-on:submit.prevent class="col-3">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" v-model="newItem">
                 <div class="input-group-append">
-                  <span class="input-group-text" v-on:click="addItem">追加</span>
                 </div>
               </div> 
             </form>
-        </div>
+        </div> -->
       </div>
 
       <div class="row">
@@ -62,7 +60,6 @@
               <thead>
                 <tr>
                   <th scope="col">Delete</th>
-                  <!-- <th scope="col">id</th> -->
                   <th scope="col">TODO</th>
                   <th scope="col">Revision</th>
                 </tr>
@@ -75,12 +72,22 @@
                   <td><input type="text" v-model:class="eachtodo.revisedTodo"></td>
                 </tr>
               </tbody>
+              <tbody>
+                <tr>
+                  <td><span>NewTodo</span></td>
+                  <td><input type="text" class="form-control" v-model="newItem"></td>
+                  <td></td>
+                </tr>
+              </tbody>
+
+
             </table>
       </div>
 
 
       <div class="row">
           <button type="button" class="btn btn-outline-primary" v-on:click="readItem">更新</button>
+          <button type="button" class="btn btn-outline-primary" v-on:click="addItem">追加</button>
           <button type="button" class="btn btn-outline-primary" v-on:click="delistItem">削除</button>
           <button type="button" class="btn btn-outline-primary" v-on:click="reviseItem">修正</button>
 

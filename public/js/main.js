@@ -19,7 +19,7 @@ var app = new Vue({
   //     console.log(err);
   //   })
   // },
-  created:　function() {
+  mounted:　function() {
     this.readItem()
   },
 
@@ -40,13 +40,42 @@ var app = new Vue({
       method: "POST",
       body: JSON.stringify(data) 
       };
+
       var self = this;
-      fetch('http://localhost:3020/vuetodos', d).then((d) => {d.json().then((j) => {
-      self.todos = j
-      }
-      )});
+      fetch('/vuetodos', d).then((d) => {
+        return new Promise((res,rej) => {
+          d.json().then((j) => {
+            self.todos = j;
+            res();
+          })
+        })
+      })
+      .then((res) => this.readItem()
+      );
       this.newItem = ""
     },
+
+    readItem: function(){
+      const headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      };
+      const d = {
+         headers: headers,
+         method: "GET"
+      };
+      var self = this
+      fetch('/vuetodos?name=' + this.name_selected, d).then((d) => {
+       return new Promise((res, rej) => {
+         d.json().then((j) => {
+           self.todos = j;
+           res(); // resolve
+         })
+       })
+     })
+     .then(console.log(self.todos))
+    },
+
 
     selectedDelete:function(deleteId){
       const headers = {
@@ -59,14 +88,8 @@ var app = new Vue({
       };
       var self = this;
       //（重要論点）fetchはPromise返す。
-      return fetch('http://localhost:3020/vuetodos/'+deleteId.id, d);
+      return fetch('/vuetodos/'+deleteId.id, d);
     },
-    //（重要論点）return fetchとしてfetchにてPromise返している。よってこれは不要となった
-    // proSelectedDelete:function(i){
-    //     return new Promise((res,rej)=>{
-    //       selectedDelete(i)
-    // })},
-    
 
     delistItem: function(){
       var self = this;
@@ -82,39 +105,17 @@ var app = new Vue({
       ); 
     },
 
-    readItem: function(){
-      const headers = {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-      };
-      const d = {
-         headers: headers,
-         method: "GET"
-      };
-      var self = this
-      fetch('http://localhost:3020/vuetodos?name=' + this.name_selected, d).then((d) => {
-       return new Promise((res, rej) => {
-         d.json().then((j) => {
-           self.todos = j;
-           res(); // resolve
-         })
-       })
-     })
-     .then(console.log(self.todos))
-    },
-
     reviseItem:function(){
       var self = this;
       self.revisedTodos = self.todos.filter((v)=> {
         return(v.revisedTodo!="");
         });
-      console.log(self.revisedTodos);
-      var r = Promise.all(
+      // console.log(self.revisedTodos);
+      Promise.all(
           self.revisedTodos.map((v) => {
             this.selectedrevise(v)
-          }));
-          r.then((response) => this.readItem()
-          ); 
+          })).then((response) => this.readItem()
+      );
     },
 
     selectedrevise:function(v) {
@@ -130,7 +131,7 @@ var app = new Vue({
       method: "PUT",
       body: JSON.stringify(data) 
       };
-      return fetch('http://localhost:3020/vuetodos/'+v.id, d);
+      return fetch('/vuetodos/'+v.id, d);
     }
   }
 });
