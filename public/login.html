@@ -14,15 +14,16 @@
           <table  class="table" >
               <tr>
                   <th>Name</th>
-                  <th><input type="text" name="name" v-model:></th>
+                  <th><input type="text" name="name" v-model="loginName"></th>
               </tr>
               <tr>
                   <th>Password</th>
-                  <th><input type="text" name="password" v-model:></th>
+                  <th><input type="text" name="password" v-model="loginPassword"></th>
               </tr>
               <tr>
                   <th>Login</th>
-                  <th><input type="submit"></th>
+                  <!-- <th><input type="submit"></th> -->
+                  <th><button type="button" class="btn btn-outline-primary" v-on:click="login">ログイン</button></th>
               </tr>
           </table>
       </div>
@@ -36,6 +37,8 @@
 
       <div class="row">
       </div>
+      <pre>{{$data.loginName}}</pre>
+      <pre>{{$data.loginPassword}}</pre>
 
     </div>
 

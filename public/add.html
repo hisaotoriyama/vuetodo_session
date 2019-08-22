@@ -11,20 +11,21 @@
   <body>
     <div id="app" class="container-fluid">
       <div class="row">
-          <table  class="table" >
-              <tr>
-                  <th>Name</th>
-                  <th><input type="text" name="name" v-model:></th>
-              </tr>
-              <tr>
-                  <th>Password</th>
-                  <th><input type="text" name="password" v-model:></th>
-              </tr>
-              <tr>
-                  <th>New Name & Password Registration</th>
-                  <th><input type="submit"></th>
-              </tr>
-          </table>
+            <table  class="table" >
+                    <tr>
+                        <th>Name</th>
+                        <th><input type="text" name="name" v-model="newName"></th>
+                    </tr>
+                    <tr>
+                        <th>Password</th>
+                        <th><input type="text" name="password" v-model="newPassword"></th>
+                    </tr>
+                    <tr>
+                        <th>Register</th>
+                        <!-- <th><input type="submit"></th> -->
+                        <th><button type="button" class="btn btn-outline-primary" v-on:click="createUser">新規ユーザー登録</button></th>
+                    </tr>
+                </table>
       </div>
 
       <div class="row">

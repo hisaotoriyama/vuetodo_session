@@ -1,11 +1,11 @@
-// @file vuetodo.js <controllers>
+// @file users.js <controllers>
 // load ORM nmodule
 let db = require('../models/index')
 
 // REST controller definitions
 module.exports = {
     index: (req, res) => {
-            db.vuetodotable.findAll({
+            db.user.findAll({
                 where:{
                     name: req.query.name
                 }
@@ -15,9 +15,7 @@ module.exports = {
                         id: p.id,
                         name: p.name,
                         email: p.email,
-                        item: p.item,
-                        isDone: p.isDone
-                    }
+                        password: p.password                    }
                 })
                 res.json(data)
             })
@@ -27,20 +25,20 @@ module.exports = {
         let data = {
         name:req.body.name,
         email:req.body.email,
-        item:req.body.item
+        password:req.body.password
         }
-        db.vuetodotable.create(data).then((p)=>{
+        db.user.create(data).then((p)=>{
           res.json({
               id: p.id,
               name: p.name,
               email: p.email,
-              item: p.item
+              password: p.password
             })
         })
     },
 
     update: (req, res) => {
-        db.vuetodotable.update({
+        db.user.update({
           item:req.body.item
         },{
           where:{
@@ -53,7 +51,7 @@ module.exports = {
 
     //（重要論点）Sequlize上ではdestroy。でもhttp上ではdeleteとする。
     destroy: (req, res) => {
-        db.vuetodotable.destroy({
+        db.user.destroy({
             where: {
              id:req.params.id
             }
