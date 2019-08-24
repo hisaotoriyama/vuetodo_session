@@ -1,4 +1,5 @@
 // setup application
+//まず画面で ブラウザで叩かれたアドレスlogin, user, vuetodoに基づき稼働する最初の画面。
 let express = require('express')
 let Res = require('express-resource')
 let cp = require('cookie-parser')
@@ -13,31 +14,12 @@ let db = require('./models/index')
 // register REST controllers
 app.resource('vuetodos', require('./controllers/vuetodo'), {id: 'id'})
 app.resource('users', require('./controllers/user'), {id: 'id'})
-app.post('/login', (req, res) => {
-    console.log(req.body);
-    db.user.findOne({
-        where:{
-            name: req.body.loginName
-        }
-    }).then((d)=> {console.log(d);
-    console.log(req.body.loginPassword)
-    console.log(d.password)
-    if(req.body.loginPassword==d.password){
-        console.log("OK")
-        res.cookie('login',true)
-        res.send(200)
-    } else {
-        console.log("NG")
-        res.cookie('login',false)
-        res.send(200)    
-    }
-    })
-})
+app.resource('logins', require('./controllers/login'), {id: 'id'})
 
 let isLogin = (req, res, next) => {
-    console.log(">>"+req.cookies.login)
+    // console.log(">>"+req.cookies.login)
     if(req.cookies.login == 'true') {
-        next();  // これでページの表示の制御ができる
+        next();  // これによりapp.use isLoginのあとのexpress.static( path.join( __dirname, '/private' )) に移る。
     } else {
         //next();
         console.log("here")

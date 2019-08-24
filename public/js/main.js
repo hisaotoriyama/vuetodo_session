@@ -197,7 +197,6 @@ var app = new Vue({
         //   name, passwordを確認する。
         //   cookes
         //   成功したら、次にtodohtmlのシート、しかも自分のシートに移る
-  
       },
 
       login: function(){
@@ -211,17 +210,16 @@ var app = new Vue({
         };
         const d = {
         headers: headers,
-        method: "POST",
+        method: "POST", //POSTするから../controller/loginにてCreateがトリガリングされる
         body: JSON.stringify(data) 
         };
-  
-        var self = this;
-        fetch('/login', d).then((d) => {
-          location.href = "/secure/todo.html"
+        // loginではなくloginsのはずなので修正
+        //vue.jsであるlogin/main.jsに基づき/loginsを参照しdの処理をする。
+        //そしてPOST/Create→cookiesの処理をする。login:true or login:falseにわけてcookieする
+        //その上で、location.href処理しsecureに移る。ここでrest.jsを参照することとなる。
+        fetch('/logins', d).then((d) => {
+          location.href = "/secure/todo.html" // 次のlocation.hrefがみそ。よく研究必要。どうしてこれが必要なのか?そしてなぜ.html表記？
         })
-
-
       }
-
     }
   });
