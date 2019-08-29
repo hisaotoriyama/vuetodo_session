@@ -217,7 +217,7 @@ var app = new Vue({
         //vue.jsであるlogin/main.jsに基づき/loginsを参照しdの処理をする。
         //そしてPOST/Create→cookiesの処理をする。login:true or login:falseにわけてcookieする
         //その上で、location.href処理しsecureに移る。ここでrest.jsを参照することとなる。
-        fetch('/logins', d).then((d) => {
+        fetch('/login', d).then((d) => {
           location.href = "/secure/todo.html" // location.hrefがみそ。よく研究必要。どうしてこれが必要なのか?そしてなぜ.html表記？
         })
 
