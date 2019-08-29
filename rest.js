@@ -21,8 +21,7 @@ let isLogin = (req, res, next) => {
     if(req.cookies.login == 'true') {
         next();  // これによりapp.use isLoginのあとのexpress.static( path.join( __dirname, '/private' )) に移る。
     } else {
-        //next();
-        console.log("here")
+    //windows.alert("NameないしPasswordが異なっています")//→alert使えない。なぜ？？？？
         res.redirect('/login.html')
     }
 }

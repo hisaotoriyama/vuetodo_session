@@ -218,8 +218,9 @@ var app = new Vue({
         //そしてPOST/Create→cookiesの処理をする。login:true or login:falseにわけてcookieする
         //その上で、location.href処理しsecureに移る。ここでrest.jsを参照することとなる。
         fetch('/logins', d).then((d) => {
-          location.href = "/secure/todo.html" // 次のlocation.hrefがみそ。よく研究必要。どうしてこれが必要なのか?そしてなぜ.html表記？
+          location.href = "/secure/todo.html" // location.hrefがみそ。よく研究必要。どうしてこれが必要なのか?そしてなぜ.html表記？
         })
+
       }
     }
   });

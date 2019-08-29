@@ -26,7 +26,9 @@ var app = new Vue({
   //   })
   // },
   mounted:　function() {
-    this.readItem()
+    console.log(req.cookies.name);
+    this.name_selected=req.cookies.name;
+    this.readItem(this.name_selected)
   },
 
   methods: {
@@ -71,6 +73,7 @@ var app = new Vue({
          method: "GET"
       };
       var self = this
+      // this.name_selected = jsCookie.name
       fetch('/vuetodos?name=' + this.name_selected, d).then((d) => {
        return new Promise((res, rej) => {
          d.json().then((j) => {

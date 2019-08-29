@@ -8,7 +8,7 @@ module.exports = {
     // Sequlizeを使ってLoginNameを取り出し
     //createなんだけどCookieをCreateしている感じなんだろうか
     //何れにしてもここはpublic/main.jsの一部機能でしかない。
-    
+
     create: (req, res) => {
             // console.log(req.body);
             db.user.findOne({
@@ -21,7 +21,14 @@ module.exports = {
             // console.log(d.password)
             if(req.body.loginPassword==d.password){
                 // console.log("OK")
-                res.cookie('login',true)
+                res.cookie('login',true,
+                {
+                    maxAge: 30000  //有効期限30000ミリ秒
+                  })
+                res.cookie('name',d.name,
+                {
+                    maxAge: 30000  //有効期限30000ミリ秒
+                  })
                 res.send(200)
             } else {
                 // console.log("NG")
