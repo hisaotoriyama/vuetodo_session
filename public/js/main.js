@@ -210,15 +210,16 @@ var app = new Vue({
         };
         const d = {
         headers: headers,
-        method: "POST", //POSTするから../controller/loginにてCreateがトリガリングされる
+        method: "POST", //POSTする。POSTは記帳という意味よりも、データを送るという意味にある。上記のdataを送るのでPOSTとする。
         body: JSON.stringify(data) 
         };
-        // loginではなくloginsのはずなので修正
-        //vue.jsであるlogin/main.jsに基づき/loginsを参照しdの処理をする。
-        //そしてPOST/Create→cookiesの処理をする。login:true or login:falseにわけてcookieする
-        //その上で、location.href処理しsecureに移る。ここでrest.jsを参照することとなる。
+        //vue.jsであるlogin/main.jsに基づき/loginを参照しdの処理をする。
+        // Node.js/rest.jsに記載のapp.post(/login)の指示に委ねる。
         fetch('/login', d).then((d) => {
-          location.href = "/secure/todo.html" // location.hrefがみそ。よく研究必要。どうしてこれが必要なのか?そしてなぜ.html表記？
+          console.log("loginOKだぞ！")
+          //その上で、location.href処理しsecureに移る。
+          //ブラウザベースのJSの場合、location.href使う。一方サーバーベースのNode、Rails使う場合、redirectを使う。
+          location.href = "/secure/todo.html" 
         })
 
       }

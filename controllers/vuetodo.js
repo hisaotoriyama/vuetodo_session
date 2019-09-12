@@ -5,9 +5,11 @@ let db = require('../models/index')
 // REST controller definitions
 module.exports = {
     index: (req, res) => {
+      console.log("main page index")
+      console.log(req.session)
             db.vuetodotable.findAll({
                 where:{
-                    name: req.query.name
+                    name: req.session.name
                 }
             }).then((d) => {
                 let data = d.map((p) => {
@@ -25,7 +27,7 @@ module.exports = {
 
     create: (req, res) => {
         let data = {
-        name:req.body.name,
+        name:req.session.name,//ここでnameを入れた。sessionの場合の対応。
         email:req.body.email,
         item:req.body.item
         }

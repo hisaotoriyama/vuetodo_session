@@ -1,3 +1,5 @@
+// import { Session } from "inspector";
+
 var app = new Vue({
   el: "#app",
   data: {
@@ -35,7 +37,7 @@ var app = new Vue({
     addItem: function(event) {
       if (this.newItem == "") return;
       const data = {
-        "name": this.name_selected,
+        "name": this.name_selected,//ここにname_selectedを入れず、/controller/vuetodo にてres.session.nameを入れる。
         "email":"",
         "item": this.newItem
       };
@@ -63,7 +65,8 @@ var app = new Vue({
       this.newItem = ""
     },
 
-    readItem: function(){
+    readItem: function() {
+      console.log("readitem")
       const headers = {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -73,9 +76,9 @@ var app = new Vue({
          method: "GET"
       };
       var self = this
-      this.name_selected = Cookies.get('Name');
-      console.log(Cookies.get('Name'))
-      fetch('/vuetodos?name=' + this.name_selected, d).then((d) => {
+      //this.name_selected = req.session.name;
+      //console.log(req.session.name)
+      fetch('/vuetodos', d).then((d) => {
        return new Promise((res, rej) => {
          d.json().then((j) => {
            self.todos = j;
