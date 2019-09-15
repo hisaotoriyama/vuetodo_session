@@ -10,15 +10,12 @@ let logout = require('./routes/logout')
 let app = express()
 
 let bodyParser = require('body-parser');
+let db = require('./models/index')
 
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-
-
-app.use('/login', login)
-app.use('/logout', logout)
 
 app.use(session({
     secret: 'keyboard cat',
@@ -31,7 +28,9 @@ app.use(session({
 app.use(cp())
 app.use(express.json())
 
-let db = require('./models/index')
+
+app.use('/login', login)
+app.use('/logout', logout)
 
 // register REST controllers
 app.resource('vuetodos', require('./controllers/vuetodo'), {id: 'id'})
