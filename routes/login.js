@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
         // res.cookie('login',true)
         // res.cookie('name',req.body.loginName)
         console.log("done")
-        console.log(req.session)
+        // console.log(req.session)
         res.send(200)
     } else {
         console.log("NG")
