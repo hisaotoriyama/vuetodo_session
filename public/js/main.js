@@ -26,7 +26,8 @@ var app = new Vue({
     //   })
     // },
     mounted:　function() {
-      this.readItem()
+      // this.readItem()
+      // login時にセキュアURLにアクセスさせたくないので、コメントアウト。
     },
   
     methods: {
